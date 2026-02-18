@@ -10,6 +10,9 @@ venv/
 dist/
 build/
 agent_config.json
-backend/data/
+backend/
+frontend/
+telegram_bot.py
+START_TELEGRAM_BOT.bat
 deploy_to_vps.py
 package-lock.json
