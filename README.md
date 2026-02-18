@@ -8,7 +8,7 @@ Pick your own AI model — Gemini is free, or bring your Claude/OpenAI/DeepSeek 
 
 **One-liner — paste in PowerShell:**
 ```powershell
-pip install httpx; python -c "import urllib.request; urllib.request.urlretrieve('http://57.129.44.62:8000/agent_worker.py','agent_worker.py')"; python agent_worker.py
+pip install httpx; python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/kevinzor/ClankerBlox/main/agent_worker.py','agent_worker.py')"; python agent_worker.py
 ```
 
 **Or clone and run:**

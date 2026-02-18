@@ -37,6 +37,7 @@ import asyncio
 # ============================================================
 
 SERVER_URL = os.environ.get("CLANKERBLOX_SERVER", "http://57.129.44.62:8000")
+SERVER_DISPLAY = "Clankerblox Node"
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "agent_config.json")
 
 # Supported AI providers
@@ -340,7 +341,7 @@ async def register_agent(client, model_id: str) -> dict:
         return config
 
     except Exception as e:
-        print(f"Cannot connect to {SERVER_URL}: {e}")
+        print(f"Cannot connect to {SERVER_DISPLAY}: {e}")
         print("Make sure the Clankerblox server is running!")
         sys.exit(1)
 
@@ -364,7 +365,7 @@ async def worker_loop(model_id: str, api_key: str):
         model_name = next((m["name"] for m in AI_MODELS.values() if m["id"] == active_model), active_model)
         print(f"\nAgent [{config['name']}] ONLINE as {role}")
         print(f"AI Model: {model_name}")
-        print(f"Polling {SERVER_URL} for work...\n")
+        print(f"Polling {SERVER_DISPLAY} for work...\n")
 
         while True:
             try:
