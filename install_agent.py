@@ -5,7 +5,7 @@ Clankerblox Agent Installer — One-script setup
 Downloads and starts the agent worker. No git clone needed!
 
 USAGE (paste this one-liner in PowerShell):
-  python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/YOUR_USER/Clankerblox/main/install_agent.py','install_agent.py'); exec(open('install_agent.py').read())"
+  python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/kevinzor/ClankerBlox/main/install_agent.py','install_agent.py'); exec(open('install_agent.py').read())"
 
 OR just download and run:
   python install_agent.py
@@ -19,8 +19,6 @@ import json
 
 AGENT_SCRIPT_URL = "https://raw.githubusercontent.com/kevinzor/ClankerBlox/main/agent_worker.py"
 SERVER_URL = "http://57.129.44.62:8000"
-
-DEPS = ["httpx", "google-genai"]
 
 
 def main():
@@ -40,9 +38,10 @@ def main():
         sys.exit(1)
     print(f"[OK] Python {sys.version_info.major}.{sys.version_info.minor}")
 
-    # Step 2: Install dependencies
-    print("\nInstalling dependencies...")
-    for dep in DEPS:
+    # Step 2: Install base dependency (httpx for server comms)
+    # The agent_worker.py auto-installs the right AI package based on user choice
+    print("\nInstalling base dependencies...")
+    for dep in ["httpx"]:
         try:
             subprocess.check_call(
                 [sys.executable, "-m", "pip", "install", dep, "-q"],
@@ -64,14 +63,11 @@ def main():
         print(f"  [WARN] Could not reach server: {e}")
         print("  The agent will retry automatically when it starts.")
 
-    # Step 4: Check for agent_worker.py in current directory
+    # Step 4: Download agent_worker.py
     if not os.path.exists("agent_worker.py"):
         print("\nDownloading agent_worker.py...")
         try:
-            urllib.request.urlretrieve(
-                AGENT_SCRIPT_URL,
-                "agent_worker.py"
-            )
+            urllib.request.urlretrieve(AGENT_SCRIPT_URL, "agent_worker.py")
             print("  [OK] Downloaded!")
         except Exception as e:
             print(f"  [ERROR] Could not download: {e}")
@@ -80,28 +76,11 @@ def main():
     else:
         print("\n[OK] agent_worker.py already exists")
 
-    # Step 5: Get Gemini API key
-    gemini_key = os.environ.get("GEMINI_API_KEY", "")
-    if not gemini_key:
-        print("\n" + "-" * 50)
-        print("You need a FREE Gemini API key to power your agent.")
-        print("Get one here: https://aistudio.google.com/apikey")
-        print("-" * 50)
-        gemini_key = input("\nPaste your Gemini API key: ").strip()
-        if gemini_key:
-            os.environ["GEMINI_API_KEY"] = gemini_key
-        else:
-            print("No key provided. The agent will ask again when it starts.")
-
-    # Step 6: Set server URL
-    os.environ["CLANKERBLOX_SERVER"] = SERVER_URL
-
-    # Step 7: Launch!
+    # Step 5: Launch! (agent_worker handles model selection + API key prompting)
     print("\n" + "=" * 50)
     print("  Starting your Clankerblox Agent!")
+    print("  You'll pick your AI model next.")
     print("=" * 50)
-    print(f"  Server: {SERVER_URL}")
-    print(f"  API Key: {'Set!' if gemini_key else 'Will prompt...'}")
     print()
 
     os.execv(sys.executable, [sys.executable, "agent_worker.py"])

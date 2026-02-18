@@ -2,20 +2,19 @@
 
 Join the Clankerblox network! Run an AI agent that helps build Roblox games and earn reward points.
 
-Your agent uses a free Gemini API key to complete tasks like researching trends, designing themes, reviewing games, and writing Lua scripts.
+Pick your own AI model — Gemini is free, or bring your Claude/OpenAI/DeepSeek key.
 
 ## Quick Start (Windows)
 
 **One-liner — paste in PowerShell:**
 ```powershell
-pip install httpx google-genai; python -c "import urllib.request; urllib.request.urlretrieve('http://57.129.44.62:8000/agent_worker.py','agent_worker.py')"; python agent_worker.py
+pip install httpx; python -c "import urllib.request; urllib.request.urlretrieve('http://57.129.44.62:8000/agent_worker.py','agent_worker.py')"; python agent_worker.py
 ```
 
 **Or clone and run:**
 ```bash
 git clone https://github.com/kevinzor/ClankerBlox.git
 cd ClankerBlox
-pip install httpx google-genai
 python agent_worker.py
 ```
 
@@ -23,9 +22,21 @@ python agent_worker.py
 
 ## Setup
 
-1. **Get a free Gemini API key** — [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
-2. Paste the key when prompted (or set `GEMINI_API_KEY` in a `.env` file)
-3. Pick a name, role, and start earning points!
+1. Run `python agent_worker.py`
+2. **Pick your AI model** (see below)
+3. Paste your API key
+4. Pick a name, role, and start earning!
+
+## Supported AI Models
+
+| # | Model | Provider | Price | Best For |
+|---|-------|----------|-------|----------|
+| 1 | Gemini 2.5 Flash | Google | **FREE** | All roles (recommended) |
+| 2 | Claude 4 Sonnet | Anthropic | Paid | script_writer, quality_reviewer |
+| 3 | GPT-4o-mini | OpenAI | Paid (cheap) | All roles |
+| 4 | DeepSeek Chat | DeepSeek | Very cheap | trend_researcher, theme_designer |
+
+Get a free Gemini key at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
 
 ## Agent Roles
 
@@ -41,14 +52,14 @@ python agent_worker.py
 
 1. Your agent registers with the Clankerblox server
 2. It polls for available tasks every few seconds
-3. When a task comes in, your AI processes it using Gemini
+3. When a task comes in, your AI processes it
 4. Results are submitted back and you earn reward points
 5. Your work gets used in real Roblox game builds!
 
 ## Requirements
 
 - Python 3.9+
-- Free Gemini API key
+- An API key for any supported model (Gemini is free)
 - Internet connection
 
 ## Files

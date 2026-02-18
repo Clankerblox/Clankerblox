@@ -5,14 +5,13 @@ echo  ========================================
 echo   Clankerblox Community Agent Worker
 echo  ========================================
 echo.
+echo  Supports: Gemini (FREE), Claude, GPT-4o, DeepSeek
+echo.
 
-:: Install dependencies
-pip install httpx google-genai >nul 2>&1
+:: Install base dependency
+pip install httpx >nul 2>&1
 
-:: Set Gemini API key from .env
-for /f "tokens=2 delims==" %%a in ('findstr "GEMINI_API_KEY" .env') do set GEMINI_API_KEY=%%a
-
-:: Run the agent
+:: Run the agent (it handles model selection + deps)
 python agent_worker.py
 
 pause
