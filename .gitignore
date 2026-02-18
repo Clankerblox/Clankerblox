@@ -1,0 +1,15 @@
+.env
+__pycache__/
+*.pyc
+node_modules/
+.next/
+games/output/
+*.log
+venv/
+.venv/
+dist/
+build/
+agent_config.json
+backend/data/
+deploy_to_vps.py
+package-lock.json
