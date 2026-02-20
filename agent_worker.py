@@ -31,6 +31,7 @@ import sys
 import json
 import time
 import asyncio
+import argparse
 
 # ============================================================
 # CONFIG
@@ -39,6 +40,17 @@ import asyncio
 SERVER_URL = os.environ.get("CLANKERBLOX_SERVER", "http://57.129.44.62:8000")
 SERVER_DISPLAY = "Clankerblox Node"
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "agent_config.json")
+
+# All supported agent roles
+ALL_ROLES = {
+    "trend_researcher":   {"difficulty": "easy",   "points": 10, "label": "Trend Researcher"},
+    "theme_designer":     {"difficulty": "medium", "points": 15, "label": "Theme Designer"},
+    "world_architect":    {"difficulty": "hard",   "points": 25, "label": "World Architect"},
+    "quality_reviewer":   {"difficulty": "medium", "points": 15, "label": "Quality Reviewer"},
+    "script_writer":      {"difficulty": "hard",   "points": 30, "label": "Script Writer"},
+    "tycoon_architect":   {"difficulty": "hard",   "points": 25, "label": "Tycoon Architect"},
+    "simulator_designer": {"difficulty": "hard",   "points": 25, "label": "Simulator Designer"},
+}
 
 # Supported AI providers
 AI_MODELS = {
@@ -233,6 +245,27 @@ scripts with error handling, DataStore, RemoteEvents. No stubs.
 Output JSON: {script_name, script_type, location, code}
 
 IMPORTANT: Respond with valid JSON only. No markdown code blocks.""",
+
+    "tycoon_architect": """You are a Roblox tycoon game architect. Design complete tycoon
+economies: currency, tiers, droppers, conveyors, upgrades, rebirth systems.
+Output JSON: {tycoon_name, currency_name, tiers: [{tier, name, unlock_cost,
+droppers: [{name, income_per_drop, drop_rate, upgrade_cost, max_level}]}],
+upgrades: [{name, cost, effect, multiplier}], rebirth: {cost, reward_multiplier, bonus_items},
+pricing_strategy, estimated_playtime_to_max}
+Balance economy: early tiers cheap, later exponential. At least 5 tiers, 2-4 droppers each.
+
+IMPORTANT: Respond with valid JSON only. No markdown code blocks.""",
+
+    "simulator_designer": """You are a Roblox simulator designer. Design areas, click targets,
+pet systems, and progression. Output JSON: {simulator_name, click_mechanic,
+areas: [{name, unlock_price, click_value_multiplier, enemies: [{name, health, reward}],
+boss: {name, health, reward, drop_chance}}],
+pets: [{name, rarity, chance, multiplier, shiny_multiplier}],
+rebirth: {requirement, reward, permanent_multiplier},
+egg_prices: [{egg_name, cost, pet_pool}]}
+Design 6+ areas with increasing difficulty. 10+ pets across all rarities.
+
+IMPORTANT: Respond with valid JSON only. No markdown code blocks.""",
 }
 
 
@@ -306,15 +339,14 @@ async def register_agent(client, model_id: str) -> dict:
     wallet = input("Solana wallet (for rewards, optional): ").strip()
 
     print("\nRoles:")
-    print("  1. trend_researcher  (easy,  10 pts/task)")
-    print("  2. theme_designer    (med,   15 pts/task)")
-    print("  3. world_architect   (hard,  25 pts/task)")
-    print("  4. quality_reviewer  (med,   15 pts/task)")
-    print("  5. script_writer     (hard,  30 pts/task)")
+    role_keys = list(ALL_ROLES.keys())
+    for i, key in enumerate(role_keys, 1):
+        r = ALL_ROLES[key]
+        diff = r["difficulty"].ljust(6)
+        print(f"  {i}. {key.ljust(22)} ({diff} {r['points']} pts/task)")
 
-    role_map = {"1": "trend_researcher", "2": "theme_designer",
-                "3": "world_architect", "4": "quality_reviewer", "5": "script_writer"}
-    choice = input("\nPick role (1-5): ").strip()
+    role_map = {str(i + 1): key for i, key in enumerate(role_keys)}
+    choice = input(f"\nPick role (1-{len(role_keys)}): ").strip()
     role = role_map.get(choice, "trend_researcher")
 
     model_name = next((m["name"] for m in AI_MODELS.values() if m["id"] == model_id), model_id)
@@ -404,10 +436,134 @@ async def worker_loop(model_id: str, api_key: str):
                 await asyncio.sleep(10)
 
 
+def parse_cli_args():
+    """Parse CLI arguments for non-interactive / OpenClaw usage."""
+    parser = argparse.ArgumentParser(
+        description="Clankerblox Community Agent Worker",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Interactive setup (default)
+  python agent_worker.py
+
+  # Non-interactive with CLI flags
+  python agent_worker.py --name MyBot --owner Kevin --role trend_researcher --model gemini --api-key AIza...
+
+  # OpenClaw one-liner
+  python agent_worker.py --name OC-Agent --role script_writer --model gemini --api-key AIza... --wallet Sol...
+
+  # Custom server
+  python agent_worker.py --server http://localhost:8000 --name TestBot --role trend_researcher --model gemini --api-key test
+        """,
+    )
+    parser.add_argument("--name", help="Agent name (skip interactive prompt)")
+    parser.add_argument("--owner", default="anonymous", help="Owner name / handle (default: anonymous)")
+    parser.add_argument("--wallet", default="", help="Solana wallet address for rewards")
+    parser.add_argument("--role", choices=list(ALL_ROLES.keys()),
+                        help="Agent role (see list above)")
+    parser.add_argument("--model", choices=["gemini", "claude", "openai", "deepseek"],
+                        help="AI model backend")
+    parser.add_argument("--api-key", dest="api_key", help="API key for the chosen AI model")
+    parser.add_argument("--server", help=f"Server URL (default: {SERVER_URL})")
+    return parser.parse_args()
+
+
+async def register_agent_cli(client, args) -> dict:
+    """Register a new agent from CLI flags (non-interactive)."""
+    model_name = next(
+        (m["name"] for m in AI_MODELS.values() if m["id"] == args.model), args.model
+    )
+    try:
+        resp = await client.post(f"{SERVER_URL}/api/agents/register", json={
+            "name": args.name,
+            "role": args.role,
+            "owner": args.owner,
+            "solana_wallet": args.wallet,
+            "model_info": model_name,
+        })
+        data = resp.json()
+        if "error" in data:
+            print(f"Registration failed: {data['error']}")
+            sys.exit(1)
+
+        config = {
+            "agent_id": data["agent_id"],
+            "api_key": data["api_key"],
+            "name": args.name,
+            "role": args.role,
+            "owner": args.owner,
+            "wallet": args.wallet,
+            "model_id": args.model,
+        }
+        with open(CONFIG_FILE, "w") as f:
+            json.dump(config, f, indent=2)
+
+        print(f"  Registered! ID: {data['agent_id']}")
+        print(f"  Role: {data['role_info']['name']} ({data['role_info']['reward_per_task']} pts/task)")
+        print(f"  AI: {model_name}")
+        return config
+
+    except Exception as e:
+        print(f"Cannot connect to {SERVER_DISPLAY}: {e}")
+        sys.exit(1)
+
+
 def main():
+    global SERVER_URL
+
+    args = parse_cli_args()
+
+    # Override server URL if provided via CLI
+    if args.server:
+        SERVER_URL = args.server
+
     print("=" * 50)
     print("  Clankerblox Community Agent Worker")
     print("=" * 50)
+
+    # ======= CLI MODE (non-interactive) =======
+    # If --name and --role and --model are all provided, skip interactive setup entirely
+    if args.name and args.role and args.model:
+        model_id = args.model
+        api_key = args.api_key or ""
+
+        # Try env var if no --api-key provided
+        if not api_key:
+            model_info = next((m for m in AI_MODELS.values() if m["id"] == model_id), None)
+            if model_info:
+                api_key = os.environ.get(model_info["env_var"], "")
+
+        if not api_key:
+            print(f"\n[ERROR] No API key provided. Use --api-key or set env var.")
+            sys.exit(1)
+
+        model_info = next((m for m in AI_MODELS.values() if m["id"] == model_id), None)
+        if model_info:
+            print(f"\n  CLI mode: {args.name} | {args.role} | {model_info['name']}")
+            print(f"  Server: {SERVER_URL}")
+            ensure_deps(model_id)
+
+            # Check if already registered
+            if os.path.exists(CONFIG_FILE):
+                with open(CONFIG_FILE) as f:
+                    cfg = json.load(f)
+                print(f"  Loaded existing agent: {cfg['name']} ({cfg['role']})")
+                # Allow overriding model/key from CLI
+                cfg["model_id"] = model_id
+                with open(CONFIG_FILE, "w") as f:
+                    json.dump(cfg, f, indent=2)
+                asyncio.run(worker_loop(model_id, api_key))
+            else:
+                # Register new agent via CLI flags
+                import httpx
+                async def _cli_register():
+                    async with httpx.AsyncClient(timeout=30) as client:
+                        return await register_agent_cli(client, args)
+                config = asyncio.run(_cli_register())
+                asyncio.run(worker_loop(model_id, api_key))
+            return
+
+    # ======= INTERACTIVE MODE (original behavior) =======
 
     # --- Check for saved config with model already ---
     saved_model = None

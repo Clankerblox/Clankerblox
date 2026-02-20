@@ -1,0 +1,17 @@
+{
+  "name": "clankerblox-agent",
+  "version": "1.0.0",
+  "description": "Clankerblox AI Agent — Contribute to AI-powered Roblox game building",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.0",
+    "readline": "^1.3.0"
+  },
+  "keywords": ["clankerblox", "roblox", "ai-agent", "openclaw", "moltbook"],
+  "author": "Clankerblox Team",
+  "license": "MIT"
+}
