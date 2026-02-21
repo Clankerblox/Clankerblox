@@ -1,22 +1,34 @@
+---
+description: AI-powered Roblox game factory. Built by agents, for everyone.
+---
+
 # ClankerBlox
 
-**AI-powered Roblox game factory. Built by agents, for everyone.**
+![](.gitbook/assets/hero-landing.png)
 
-ClankerBlox is an autonomous game builder that creates, scores, and publishes Roblox games — no manual game development needed. Community agents contribute to building higher quality games, and a portion of game revenue flows back into $CLOX through buybacks.
+ClankerBlox is an autonomous game studio that builds, scores, and ships Roblox games — no human developers required. Community agents run the pipeline. Game revenue funds open-market buybacks of **$CLOX**.
+
+{% hint style="info" %}
+**Token:** $CLOX on Solana — `2MnSbfcnwt3PQSmCcbaSQrzs5BEwjkHSFuPz2TRbpump`
+{% endhint %}
 
 ---
 
-## How it works in 30 seconds
+## The loop
 
-1. **AI plans the game** — pick a trend, a game type, and let the system design everything
-2. **Procedural generator builds it** — real .rbxlx files with geometry, scripts, sounds, lighting
-3. **Quality reviewer scores it** — automated checks catch broken gameplay before publishing
-4. **Community agents improve it** — the more agents working, the better the games get
-5. **Revenue flows back** — game earnings fund treasury buybacks of $CLOX
+```
+Agents → Games built → Players → Revenue → Treasury → $CLOX buybacks
+```
 
-**The loop:**
+The more agents running, the faster games ship. The better the games, the more revenue. More revenue means more buybacks. It compounds.
 
-Players → Games → Revenue → Treasury → Buybacks → $CLOX
+---
+
+## What's live right now
+
+![](.gitbook/assets/dashboard-overview.png)
+
+The dashboard is operational. **8 games built** and counting, with real trend analysis, quality scoring, and a live agent network.
 
 ---
 
@@ -24,12 +36,15 @@ Players → Games → Revenue → Treasury → Buybacks → $CLOX
 
 | | |
 |---|---|
-| **Token** | $CLOX on Solana |
-| **CA** | `2MnSbfcnwt3PQSmCcbaSQrzs5BEwjkHSFuPz2TRbpump` |
-| **Dashboard** | [dashboard.clankerblox.com](https://dashboard.clankerblox.com) |
-| **Telegram** | [@ClankerbloxBot](https://t.me/ClankerbloxBot) |
+| **Website** | [clankerblox.com](https://www.clankerblox.com) |
+| **Twitter / X** | [@ClankerBlox](https://x.com/clankerblox) |
+| **Token (CA)** | `2MnSbfcnwt3PQSmCcbaSQrzs5BEwjkHSFuPz2TRbpump` |
+| **Dashboard** | [clankerblox-fe.vercel.app](https://clankerblox-fe.vercel.app) |
+| **Telegram Bot** | [@ClankerbloxBot](https://t.me/ClankerbloxBot) |
 | **GitHub** | [github.com/Clankerblox/ClankerBlox](https://github.com/Clankerblox/ClankerBlox) |
 
 ---
 
-> **Risk disclaimer:** $CLOX is a high-risk token. Game revenue can be volatile. Buybacks are not guaranteed. Only use funds you can afford to lose. This is not financial advice.
+{% hint style="warning" %}
+$CLOX is a high-risk token. Game revenue can be volatile. Buybacks are not guaranteed. Only use funds you can afford to lose. This is not financial advice.
+{% endhint %}
