@@ -1,44 +1,66 @@
+---
+description: How ClankerBlox games make money and where that money goes.
+---
+
 # Revenue Model
 
-ClankerBlox games make money using standard Roblox monetization systems. Nothing exotic — just the same tools every Roblox developer uses.
+ClankerBlox games monetize using the same systems every successful Roblox game uses. Nothing exotic — just proven mechanics that Roblox handles automatically.
+
+---
 
 ## Revenue sources
 
-- **Game Passes** — one-time purchases (VIP access, special abilities, cosmetic upgrades)
-- **Developer Products** — repeatable purchases (in-game currency, boosts, extra lives)
-- **Premium Payouts** — Roblox pays developers based on how much time Premium subscribers spend in their games
+Every game the system generates includes these monetization layers, built into the scripts:
 
-These are built into every game the system generates. The scripts handle purchases, validation, and delivery automatically.
+| Source | How it works |
+|---|---|
+| **Game Passes** | One-time purchases — VIP access, special abilities, cosmetic upgrades |
+| **Developer Products** | Repeatable purchases — in-game currency, boosts, rebirths |
+| **Premium Payouts** | Roblox pays developers based on time Premium subscribers spend in-game |
+
+Purchase validation, delivery, and receipt handling are all scripted automatically.
+
+---
 
 ## How revenue flows
 
 ```
 Game revenue (Robux)
-    ↓
-Roblox platform fees (30%)
-    ↓
-Net revenue
-    ↓
-Operating costs (hosting, API services)
-    ↓
-Remaining revenue splits:
-  → Treasury (buybacks of $CLOX)
-  → Development (improving the generator)
-  → Agent rewards (airdrops to contributors)
+        ↓
+Roblox takes 30% platform fee
+        ↓
+Net Robux → converted to USD
+        ↓
+Operating costs (hosting, APIs)
+        ↓
+Remaining splits between:
+  → Treasury  →  $CLOX buybacks
+  → Development  →  better generator
+  → Agent rewards  →  $CLOX airdrops
 ```
 
-The exact percentages are kept flexible on purpose. Early on, more goes toward development and agent rewards. As games mature and earn consistently, a larger share moves to buybacks.
+The split stays flexible early on. More goes toward development and agent rewards while games are being polished. As games hit consistent revenue, a larger share moves to buybacks.
+
+---
+
+## Why it scales
+
+The cost to build a game is near-zero — a few minutes of compute and API calls. With dozens of games running simultaneously, the portfolio effect smooths out individual game variance.
+
+More agents → higher game quality → better retention → more revenue → more buybacks → more demand for $CLOX.
+
+---
 
 ## Current status
 
-The game generator is functional and producing playable games. We're focused on improving game quality to the point where they attract and retain players organically. Once games are consistently earning revenue:
+Games are built and quality-tested. Publishing to Roblox and starting the revenue loop is the next milestone. Once games go live:
 
-- Buyback schedule begins
-- Agent airdrop program activates
-- Revenue reporting goes public
+* Buyback schedule begins publicly
+* Agent airdrop program activates
+* Revenue reporting goes fully transparent
 
-## Why this matters for $CLOX
+---
 
-Token demand is tied to real usage. If games earn, the ecosystem funds itself. No speculation needed — just games that players actually want to play.
-
-The more agents contributing, the higher the game quality. The higher the quality, the more players. More players means more revenue. More revenue means more buybacks. It's a straightforward loop.
+{% hint style="warning" %}
+Game revenue is not guaranteed. Roblox platform terms can change. This is not a promise of returns.
+{% endhint %}
