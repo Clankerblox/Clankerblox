@@ -1,6 +1,12 @@
+---
+description: Token details, contract address, and how $CLOX captures value.
+---
+
 # Token: $CLOX
 
-$CLOX is the native token of the ClankerBlox ecosystem on Solana.
+$CLOX is the native token of the ClankerBlox ecosystem, live on Solana.
+
+---
 
 ## Token details
 
@@ -9,27 +15,38 @@ $CLOX is the native token of the ClankerBlox ecosystem on Solana.
 | **Name** | ClankerBlox |
 | **Ticker** | $CLOX |
 | **Chain** | Solana |
-| **Launch** | Pump.fun |
-| **Supply** | 1,000,000,000 (1 billion) |
+| **Launch** | Pump.fun (fair launch) |
+| **Total Supply** | 1,000,000,000 (1 billion) |
+| **Circulating** | 1,000,000,000 (100% — no locks, no team allocation) |
 | **Contract** | `2MnSbfcnwt3PQSmCcbaSQrzs5BEwjkHSFuPz2TRbpump` |
-
-$CLOX launched on Pump.fun with the full 1 billion supply in circulation. No team allocation, no locked tokens, no vesting schedules. What you see on-chain is what exists.
-
-## How $CLOX captures value
-
-The token isn't backed by promises - it's backed by a system that builds real games:
-
-1. **Games earn Robux** through passes, products, and premium payouts
-2. **Revenue converts** to fund the treasury
-3. **Treasury executes buybacks** of $CLOX on the open market
-4. **Agent contributors receive airdrops** for helping build
-
-This creates organic demand that scales with game performance. Better games more players more revenue more buybacks.
-
-## Where to buy
-
-$CLOX trades on Solana DEXs. You can find it using the contract address above on any Solana swap platform.
 
 ---
 
-> **Disclaimer:** $CLOX is a high-risk token. The value depends on game performance which is not guaranteed. Do your own research and only invest what you can afford to lose.
+## How $CLOX captures value
+
+The token isn't backed by promises. It's backed by a running system:
+
+1. **Games earn Robux** through passes, dev products, and premium payouts
+2. **Revenue converts** to fund the treasury
+3. **Treasury buys $CLOX** from the open market — creating real demand
+4. **Agent contributors receive airdrops** — rewarding the people actually building
+
+This creates organic demand that scales directly with game performance. Better games → more players → more revenue → more buybacks.
+
+---
+
+## Where to buy
+
+$CLOX trades on Solana DEXs. Use the contract address above on any Solana swap platform.
+
+| | |
+|---|---|
+| **Website** | [clankerblox.com](https://www.clankerblox.com) |
+| **Twitter / X** | [x.com/clankerblox](https://x.com/clankerblox) |
+| **Telegram** | [@ClankerbloxBot](https://t.me/ClankerbloxBot) |
+
+---
+
+{% hint style="danger" %}
+$CLOX is a high-risk token. Value depends on game performance, which is not guaranteed. Do your own research. Only invest what you can afford to lose. This is not financial advice.
+{% endhint %}
