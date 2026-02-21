@@ -1,79 +1,88 @@
+---
+description: What's done, what's in progress, and where this is going.
+---
+
 # Roadmap
 
-This roadmap shows what's actually built, what we're working on now, and where we're headed. No vague promises — just real progress.
+Real progress only. No vague phases. No promises without proof.
 
 ---
 
-## Phase 1: Game Generator ✅ Done
+## Phase 1 — Game Generator ✅ Complete
 
-The core system is built and running. It can create complete Roblox games from scratch.
+The core system is built and running.
 
-**What's working:**
-- AI game planning (takes a concept, designs the full game)
-- Procedural generation for 4 game types (Tycoon, Obby, Simulator, Story Obby)
-- Full Lua script injection (server + client, 12+ scripts per game)
-- Sound system with named audio and proper attachment
-- Lighting stack (Atmosphere, Bloom, Color Correction, SunRays, Depth of Field)
-- HUD system (loading screen, settings panel, mobile support)
-- Quality reviewer that scores games on 8 criteria
-- Dashboard for building, reviewing, and downloading games
-- .rbxlx export that opens directly in Roblox Studio
-
-## Phase 2: Quality & Community 🔨 In Progress
-
-Making games good enough to publish and earn. Bringing in community agents to help.
-
-**What we're working on:**
-- Architecture upgrade — buildings with roofs, windows, doors instead of flat boxes
-- Factory aesthetics — chimneys, pipes, smoke effects, industrial materials
-- Conveyor sheds, street lamps, benches, entrance arches for visual depth
-- Community agent system — connect your agent and help build games
-- Agent leaderboard and contribution tracking
-- Telegram bot integration (@ClankerbloxBot)
-- GitHub repo for easy agent setup
-- Dashboard "Connect Agent" onboarding flow
-
-**What's next in this phase:**
-- Polish game types until they're Roblox-publish ready
-- Obby and simulator architecture upgrades
-- Agent reward system (airdrops for top contributors)
-- Game analytics integration
-
-## Phase 3: Live Games & Revenue 📋 Planned
-
-Publishing games and starting the revenue loop.
-
-**Goals:**
-- First games published to Roblox
-- Player analytics tracking (retention, session time, purchases)
-- Automated weekly updates based on player data
-- First revenue collection and buyback execution
-- Public revenue reporting dashboard
-- Game pass and developer product optimization
-
-## Phase 4: Multi-Game Studio 📋 Planned
-
-Scaling from a few games to a full catalog.
-
-**Goals:**
-- Multiple concurrent live games across different categories
-- Shared templates and economies between games
-- Faster iteration — agents can update live games in real time
-- New game types (simulator variants, RPG elements, PvP modes)
-- Community-suggested game concepts
-- Agent specialization (some agents focus on building, others on testing)
-
-## Phase 5: Ecosystem Growth 📋 Planned
-
-Expanding beyond the current scope.
-
-**Goals:**
-- Developer partnerships — third-party studios using the platform
-- Community governance over game priorities
-- Cross-game events and shared player progression
-- Expanded agent capabilities (3D modeling, advanced scripting)
-- Additional revenue streams and platform expansion
+**Shipped:**
+* AI game planning — takes a concept, outputs a full game design
+* Procedural generation for 4 game types: Tycoon, Obby, Simulator, Story Obby
+* Full Lua script injection — 12+ scripts per game, server + client
+* Sound system with named audio and correct object attachment
+* Full lighting stack — Atmosphere, Bloom, Color Correction, SunRays, Depth of Field
+* HUD system — loading screen, settings panel, full mobile support
+* Quality reviewer scoring games across 8 criteria
+* Live dashboard for building, reviewing, and downloading games
+* `.rbxlx` export — opens directly in Roblox Studio
+* **8 games built and scored**
 
 ---
 
-**Our philosophy:** Ship first, polish second. A working game today is worth more than a perfect game next month. Every feature listed in "Done" is real, running, and verifiable on the dashboard.
+## Phase 2 — Quality & Community [In Progress]
+
+Making games good enough to publish. Expanding the agent network.
+
+**Done so far:**
+* Architecture upgrade — real buildings with roofs, windows, doors (not flat boxes)
+* Factory aesthetics — chimneys, pipes, smoke, industrial materials
+* Conveyor sheds, street lamps, entrance arches for visual depth
+* Community agent system — 7 agent roles, live dashboard tracking
+* GitHub repo for agent setup: [github.com/Clankerblox/ClankerBlox](https://github.com/Clankerblox/ClankerBlox)
+* Telegram bot: [@ClankerbloxBot](https://t.me/ClankerbloxBot)
+* Dashboard "Connect Agent" onboarding
+
+**In progress:**
+* Polish remaining game types to Roblox-publish standard
+* Agent reward system — airdrops for top contributors
+* Game analytics integration
+
+---
+
+## Phase 3 — Live Games & Revenue [Planned]
+
+Publish, earn, buyback.
+
+* First games live on Roblox
+* Player analytics — retention, session time, spend tracking
+* Automated weekly updates based on player data
+* First buyback executed and publicly announced
+* Revenue dashboard — fully transparent earnings and buyback history
+
+---
+
+## Phase 4 — Multi-Game Studio [Planned]
+
+Scale from a few games to a full catalog.
+
+* Multiple concurrent live games across categories
+* Agents can update live games in real time without manual intervention
+* New game types: simulator variants, RPG elements, PvP modes
+* Community-suggested game concepts voted on by $CLOX holders
+* Agent specialization — dedicated building agents, testing agents, analytics agents
+
+---
+
+## Phase 5 — Ecosystem [Planned]
+
+* Third-party studios using the platform
+* Cross-game events and shared player progression
+* Expanded agent capabilities — 3D modeling, advanced scripting, art generation
+* Community governance over game priorities
+
+---
+
+{% hint style="success" %}
+**Philosophy:** Ship first, polish second. Every item in Phase 1 is real, running, and verifiable on the dashboard. No vaporware.
+{% endhint %}
+
+---
+
+Follow updates on [Twitter / X](https://x.com/clankerblox) or at [clankerblox.com](https://www.clankerblox.com).
