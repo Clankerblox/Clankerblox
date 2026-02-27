@@ -508,6 +508,18 @@ async def register_agent_cli(client, args) -> dict:
         sys.exit(1)
 
 
+def _save_api_key(model_id: str, api_key: str):
+    """Save the provider API key to config so user can just press Start next time."""
+    if os.path.exists(CONFIG_FILE):
+        with open(CONFIG_FILE) as f:
+            cfg = json.load(f)
+        cfg["model_id"] = model_id
+        cfg["provider_api_key"] = api_key
+        with open(CONFIG_FILE, "w") as f:
+            json.dump(cfg, f, indent=2)
+        print("  Config saved! Next time just double-click START_AGENT.bat")
+
+
 def main():
     global SERVER_URL
 
@@ -563,22 +575,41 @@ def main():
                 asyncio.run(worker_loop(model_id, api_key))
             return
 
-    # ======= INTERACTIVE MODE (original behavior) =======
+    # ======= INTERACTIVE MODE =======
 
-    # --- Check for saved config with model already ---
+    # --- Check for saved config with model + API key ---
     saved_model = None
+    saved_api_key = None
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE) as f:
             cfg = json.load(f)
             saved_model = cfg.get("model_id")
+            saved_api_key = cfg.get("provider_api_key")
 
+    # FAST PATH: Everything saved — just press Start!
+    if saved_model and saved_api_key:
+        model_info = next((m for m in AI_MODELS.values() if m["id"] == saved_model), None)
+        if model_info:
+            print(f"\n  Saved config found!")
+            print(f"  Agent: {cfg.get('name', 'Unknown')}")
+            print(f"  Role:  {cfg.get('role', 'Unknown')}")
+            print(f"  AI:    {model_info['name']}")
+            print(f"  Key:   {saved_api_key[:8]}...{saved_api_key[-4:]}")
+            print()
+            ensure_deps(saved_model)
+            asyncio.run(worker_loop(saved_model, saved_api_key))
+            return
+
+    # PARTIAL CONFIG: Model saved but no API key yet
     if saved_model:
         model_info = next((m for m in AI_MODELS.values() if m["id"] == saved_model), None)
         if model_info:
             print(f"\nAI Model: {model_info['name']}")
+            # Check env var first
             env_key = os.environ.get(model_info["env_var"], "")
             if env_key:
                 print(f"API Key: Set (from env)")
+                _save_api_key(saved_model, env_key)
                 ensure_deps(saved_model)
                 asyncio.run(worker_loop(saved_model, env_key))
                 return
@@ -588,6 +619,7 @@ def main():
                 key = input(f"Paste your {model_info['provider']} API key: ").strip()
                 if key:
                     os.environ[model_info["env_var"]] = key
+                    _save_api_key(saved_model, key)
                     ensure_deps(saved_model)
                     asyncio.run(worker_loop(saved_model, key))
                     return
@@ -619,6 +651,9 @@ def main():
             print("Need an API key to run. Exiting.")
             sys.exit(1)
         os.environ[model_info["env_var"]] = api_key
+
+    # Save so they never have to enter it again
+    _save_api_key(model_id, api_key)
 
     # Install deps for chosen model
     print(f"\nSetting up {model_info['name']}...")
