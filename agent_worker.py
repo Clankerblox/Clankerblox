@@ -324,8 +324,9 @@ async def register_agent(client, model_id: str) -> dict:
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE) as f:
             config = json.load(f)
-            print(f"  Loaded agent: {config['name']} ({config['role']})")
-            # Migrate old configs that don't have model_id
+        # Only use saved config if it has a full registration (agent_id + name)
+        if "agent_id" in config and "name" in config:
+            print(f"  Loaded agent: {config['name']} ({config.get('role', 'unknown')})")
             if "model_id" not in config:
                 config["model_id"] = model_id
                 with open(CONFIG_FILE, "w") as wf:
@@ -361,9 +362,16 @@ async def register_agent(client, model_id: str) -> dict:
             print(f"Registration failed: {data['error']}")
             sys.exit(1)
 
+        # Preserve provider_api_key if it was saved earlier
+        existing = {}
+        if os.path.exists(CONFIG_FILE):
+            with open(CONFIG_FILE) as f:
+                existing = json.load(f)
         config = {"agent_id": data["agent_id"], "api_key": data["api_key"],
                   "name": name, "role": role, "owner": owner, "wallet": wallet,
                   "model_id": model_id}
+        if "provider_api_key" in existing:
+            config["provider_api_key"] = existing["provider_api_key"]
         with open(CONFIG_FILE, "w") as f:
             json.dump(config, f, indent=2)
 
