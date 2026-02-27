@@ -387,6 +387,8 @@ async def worker_loop(model_id: str, api_key: str):
 
     async with httpx.AsyncClient(timeout=30) as client:
         config = await register_agent(client, model_id)
+        # Always save the provider API key after registration so it persists
+        _save_api_key(config.get("model_id", model_id), api_key)
         agent_id = config["agent_id"]
         role = config["role"]
         # Use model from config (in case loaded from file)
@@ -513,11 +515,13 @@ def _save_api_key(model_id: str, api_key: str):
     if os.path.exists(CONFIG_FILE):
         with open(CONFIG_FILE) as f:
             cfg = json.load(f)
-        cfg["model_id"] = model_id
-        cfg["provider_api_key"] = api_key
-        with open(CONFIG_FILE, "w") as f:
-            json.dump(cfg, f, indent=2)
-        print("  Config saved! Next time just double-click START_AGENT.bat")
+    else:
+        cfg = {}
+    cfg["model_id"] = model_id
+    cfg["provider_api_key"] = api_key
+    with open(CONFIG_FILE, "w") as f:
+        json.dump(cfg, f, indent=2)
+    print("  Config saved! Next time just double-click START_AGENT.bat")
 
 
 def main():

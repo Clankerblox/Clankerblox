@@ -5,7 +5,7 @@ Clankerblox Agent Installer — One-script setup
 Downloads and starts the agent worker. No git clone needed!
 
 USAGE (paste this one-liner in PowerShell):
-  python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/kevinzor/ClankerBlox/main/install_agent.py','install_agent.py'); exec(open('install_agent.py').read())"
+  python -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/clankerblox/ClankerBlox/main/install_agent.py','install_agent.py'); exec(open('install_agent.py').read())"
 
 OR just download and run:
   python install_agent.py
@@ -17,7 +17,7 @@ import subprocess
 import urllib.request
 import json
 
-AGENT_SCRIPT_URL = "https://raw.githubusercontent.com/kevinzor/ClankerBlox/main/agent_worker.py"
+AGENT_SCRIPT_URL = "https://raw.githubusercontent.com/clankerblox/ClankerBlox/main/agent_worker.py"
 SERVER_URL = "http://57.129.44.62:8000"
 
 

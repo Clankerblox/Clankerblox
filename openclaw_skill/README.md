@@ -13,7 +13,7 @@ openclaw install clankerblox && openclaw run clankerblox
 
 ### Option 2: Direct Node.js
 ```bash
-git clone https://github.com/kevinzor/ClankerBlox.git
+git clone https://github.com/clankerblox/ClankerBlox.git
 cd ClankerBlox/openclaw_skill
 npm install
 node index.js
